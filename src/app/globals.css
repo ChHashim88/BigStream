@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 8 9 11;
+    --surface: 17 19 24;
+    --surface-elevated: 24 26 32;
+    --border: 255 255 255;
+    --border-opacity: 0.08;
+    --brand-red: 229 9 20;
+    --brand-red-glow: rgba(229, 9, 20, 0.25);
+    --text-primary: 245 245 245;
+    --text-secondary: 146 149 157;
+    --text-muted: 100 105 115;
+  }
+
+  * {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+
+  html, body {
+    background-color: #08090B;
+    color: #F5F5F5;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #08090B;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1F222A;
+  border-radius: 4px;
+  border: 2px solid #08090B;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #E50914;
+}
+
+/* Hide scrollbar for clean horizontal rails */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Film Grain Texture */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+}
+
+/* Vignette Overlay */
+.cinematic-vignette {
+  background: radial-gradient(circle at center, transparent 30%, rgba(8, 9, 11, 0.85) 100%);
+}
+
+/* Glow Effects */
+.red-ambient-glow {
+  box-shadow: 0 0 50px -10px rgba(229, 9, 20, 0.25);
+}
+
+.card-hover-glow:hover {
+  box-shadow: 0 10px 30px -10px rgba(229, 9, 20, 0.3);
+}
+
+/* Typography Editorial Class */
+.font-serif-editorial {
+  font-family: var(--font-playfair), serif;
+}
