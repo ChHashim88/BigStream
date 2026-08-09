@@ -3,6 +3,7 @@
 import React, { useState, Suspense } from "react";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
+import CinematicLoader from "../ui/CinematicLoader";
 
 interface MainLayoutProps {
   children: React.ReactNode;
@@ -14,7 +15,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="min-h-screen bg-[#08090B] text-[#F5F5F5] flex flex-col relative selection:bg-[#E50914] selection:text-white">
       {/* Permanent Desktop Left Sidebar & Mobile Drawer */}
-      <Suspense fallback={<div className="hidden lg:block fixed top-0 left-0 bottom-0 w-64 p-3 bg-[#13141B]" />}>
+      <Suspense fallback={<CinematicLoader fullScreen={false} message="INITIALIZING SIDEBAR..." />}>
         <Sidebar
           mobileOpen={mobileSidebarOpen}
           onCloseMobile={() => setMobileSidebarOpen(false)}

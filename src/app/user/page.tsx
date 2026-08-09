@@ -7,6 +7,8 @@ import UserDashboard from "@/components/user/UserDashboard";
 import TrailerModal from "@/components/movie/TrailerModal";
 import { Movie } from "@/data/movies";
 
+import CinematicLoader from "@/components/ui/CinematicLoader";
+
 export default function UserPortalPage() {
   const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
@@ -20,7 +22,7 @@ export default function UserPortalPage() {
     <MainLayout>
       <main className="flex-1 pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <Suspense fallback={<div className="text-white p-8 text-center">Loading User Portal...</div>}>
+          <Suspense fallback={<CinematicLoader fullScreen={false} message="LOADING USER PORTAL..." />}>
             <UserDashboard onPlayMovie={handlePlayMovie} />
           </Suspense>
         </div>
