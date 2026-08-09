@@ -2,7 +2,7 @@
 
 import React, { use } from "react";
 import Link from "next/link";
-import Navbar from "@/components/layout/Navbar";
+import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
 import { HIFM_ARTICLES } from "@/data/articles";
 import { ArrowLeft, Clock, Calendar, Share2, BookOpen } from "lucide-react";
@@ -14,9 +14,7 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
   const article = HIFM_ARTICLES.find((a) => a.slug === slug) || HIFM_ARTICLES[0];
 
   return (
-    <div className="min-h-screen bg-[#08090B] text-[#F5F5F5] flex flex-col">
-      <Navbar />
-
+    <MainLayout>
       <main className="flex-1 pt-24 pb-16">
         <article className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
           <Link
@@ -104,6 +102,6 @@ export default function ArticleDetailPage({ params }: { params: Promise<{ slug: 
       </main>
 
       <Footer />
-    </div>
+    </MainLayout>
   );
 }

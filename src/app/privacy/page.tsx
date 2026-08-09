@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
+import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
 import LegalLayout from "@/components/legal/LegalLayout";
 import { PRIVACY_POLICY } from "@/data/privacy";
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-[#F5F5F5] flex flex-col">
-      <Navbar />
-
+    <MainLayout>
       <main className="flex-1 pt-20">
         <LegalLayout
           title="Privacy Policy"
@@ -21,6 +19,6 @@ export default function PrivacyPage() {
       </main>
 
       <Footer />
-    </div>
+    </MainLayout>
   );
 }

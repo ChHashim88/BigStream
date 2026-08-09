@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, use } from "react";
-import Navbar from "@/components/layout/Navbar";
+import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
 import CategoryBar from "@/components/categories/CategoryBar";
 import MovieGrid from "@/components/movie/MovieGrid";
@@ -76,9 +76,7 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ categ
   };
 
   return (
-    <div className="min-h-screen bg-[#08090B] text-[#F5F5F5] flex flex-col">
-      <Navbar />
-
+    <MainLayout>
       <main className="flex-1 pt-24 pb-16">
         <CategoryBar activeCategorySlug={categorySlug} />
 
@@ -108,6 +106,6 @@ export default function CategoryDetailPage({ params }: { params: Promise<{ categ
         isOpen={isTrailerOpen}
         onClose={() => setIsTrailerOpen(false)}
       />
-    </div>
+    </MainLayout>
   );
 }

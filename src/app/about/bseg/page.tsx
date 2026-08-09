@@ -1,16 +1,14 @@
 "use client";
 
 import React from "react";
-import Navbar from "@/components/layout/Navbar";
+import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
 import { BSEG_INFO, EXECUTIVE_TEAM, CAMELCODE_INFO } from "@/data/team";
 import { ShieldCheck, UserCheck, Code, Building, TrendingUp } from "lucide-react";
 
 export default function BSEGPage() {
   return (
-    <div className="min-h-screen bg-[#08090B] text-[#F5F5F5] flex flex-col">
-      <Navbar />
-
+    <MainLayout>
       <main className="flex-1 pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-16">
           {/* Company Profile Header */}
@@ -100,6 +98,6 @@ export default function BSEGPage() {
       </main>
 
       <Footer />
-    </div>
+    </MainLayout>
   );
 }

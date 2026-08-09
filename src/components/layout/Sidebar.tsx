@@ -54,7 +54,7 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
 
   const navGroups = [
     {
-      title: "MENU",
+
       items: [
         { name: "Home", href: "/", icon: Home },
         { name: "Discover", href: "/categories", icon: Compass },
@@ -83,9 +83,9 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-[#13141B] text-[#F5F5F5] border-r border-white/[0.06] shadow-2xl overflow-y-auto custom-scrollbar select-none rounded-r-2xl lg:rounded-2xl">
+    <div className="flex flex-col h-full bg-[#13141B] text-[#F5F5F5] border-l lg:border-r border-white/[0.06] shadow-2xl overflow-y-auto custom-scrollbar select-none rounded-l-2xl lg:rounded-2xl">
       {/* Brand Header */}
-      <div className="pt-7 px-6 pb-6 flex items-center justify-between">
+      <div className="pt-7 px-6 pb-6 flex items-center justify-between relative">
         <Link
           href="/"
           onClick={() => handleNavClick("/")}
@@ -97,23 +97,13 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
             alt="Big Stream Logo"
             className="h-16 sm:h-20 max-h-24 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
           />
-
-          {/* Stylized Brand Typography UNDER the Logo */}
-          {/* <div className="flex flex-col items-center">
-            <span className="font-extrabold text-xl tracking-[0.18em] text-white font-sans uppercase leading-none group-hover:text-[#E50914] transition-colors">
-              BIG<span className="text-[#E50914]">.</span>STREAM
-            </span>
-            <span className="text-[10px] tracking-[0.25em] text-[#7A7E8D] font-mono font-medium uppercase mt-1">
-              Cinema Platform
-            </span>
-          </div> */}
         </Link>
 
-        {/* Close Button for Mobile Drawer */}
+        {/* Close Button for Mobile Drawer (Top Right Corner) */}
         {onCloseMobile && (
           <button
             onClick={onCloseMobile}
-            className="lg:hidden p-2 text-[#8C90A0] hover:text-white rounded-lg hover:bg-white/10 transition-colors"
+            className="lg:hidden absolute top-4 right-4 p-2 text-[#8C90A0] hover:text-white rounded-full bg-white/5 border border-white/10 hover:bg-white/15 transition-all shadow-md z-10"
             aria-label="Close menu"
           >
             <X className="w-5 h-5" />
@@ -147,8 +137,8 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                     href={item.href}
                     onClick={() => handleNavClick(item.href)}
                     className={`group relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${active
-                        ? "text-[#E50914] bg-[#E50914]/10 font-semibold shadow-[0_0_20px_rgba(229,9,20,0.12)] border border-[#E50914]/20"
-                        : "text-[#9B9EAB] hover:text-white hover:bg-white/[0.06]"
+                      ? "text-[#E50914] bg-[#E50914]/10 font-semibold shadow-[0_0_20px_rgba(229,9,20,0.12)] border border-[#E50914]/20"
+                      : "text-[#9B9EAB] hover:text-white hover:bg-white/[0.06]"
                       }`}
                   >
                     {/* Active Left Pill Indicator */}
@@ -159,8 +149,8 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                     {/* Icon */}
                     <IconComponent
                       className={`w-[19px] h-[19px] transition-colors duration-200 ${active
-                          ? "text-[#E50914] fill-[#E50914]/20"
-                          : "text-[#8C90A0] group-hover:text-white"
+                        ? "text-[#E50914] fill-[#E50914]/20"
+                        : "text-[#8C90A0] group-hover:text-white"
                         }`}
                     />
 
@@ -203,16 +193,16 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
         {sidebarContent}
       </aside>
 
-      {/* Mobile Slide-Over Drawer Overlay */}
+      {/* Mobile Slide-Over Drawer Overlay (Right Side) */}
       {mobileOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
+        <div className="lg:hidden fixed inset-0 z-50 flex justify-end">
           {/* Backdrop Blur overlay */}
           <div
             className="fixed inset-0 bg-black/80 backdrop-blur-md animate-in fade-in duration-300"
             onClick={onCloseMobile}
           />
-          {/* Drawer Content */}
-          <div className="relative w-72 max-w-[85vw] h-full p-2 z-10 animate-in slide-in-from-left duration-300">
+          {/* Drawer Content - Right Aligned */}
+          <div className="relative w-72 max-w-[85vw] h-full p-2 z-10 animate-in slide-in-from-right duration-300">
             {sidebarContent}
           </div>
         </div>
