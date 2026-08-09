@@ -140,12 +140,15 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Featured Movies Showcase (Large Landscape Cards) */}
+        {/* Featured Movies Showcase (Horizontal Scroll Row on Mobile, Grid on Desktop) */}
         <section className="py-12 bg-[#0D0F14]/80 border-y border-white/[0.06] relative">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-end justify-between mb-8">
               <div>
-
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E50914]/10 border border-[#E50914]/30 text-[#E50914] text-xs font-mono font-bold tracking-wider uppercase mb-2">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>Curated Spotlight</span>
+                </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
                   Featured Masterpieces
                 </h2>
@@ -153,21 +156,26 @@ export default function HomePage() {
 
               <Link
                 href="/featured"
-                className="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-[#E50914] hover:text-[#FF0F1A] transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#E50914] hover:text-[#FF0F1A] transition-colors"
               >
                 <span>Explore Featured</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {featuredMovies.slice(0, 3).map((movie) => (
-                <MovieCard
+            {/* Mobile: Horizontal Scrolling Row for all featured movies | Desktop: Grid */}
+            <div className="flex overflow-x-auto space-x-4 no-scrollbar pb-4 pt-1 items-stretch md:grid md:grid-cols-2 lg:grid-cols-3 md:space-x-0 md:gap-6">
+              {featuredMovies.map((movie) => (
+                <div
                   key={movie.id}
-                  movie={movie}
-                  variant="landscape"
-                  onPlay={handlePlayTrailer}
-                />
+                  className="shrink-0 w-[280px] sm:w-[320px] md:w-auto h-full flex flex-col"
+                >
+                  <MovieCard
+                    movie={movie}
+                    variant="landscape"
+                    onPlay={handlePlayTrailer}
+                  />
+                </div>
               ))}
             </div>
           </div>
