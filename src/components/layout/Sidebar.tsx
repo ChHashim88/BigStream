@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   Home,
   Compass,
@@ -32,12 +32,22 @@ interface SidebarProps {
 
 export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarProps) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
 
   // Helper to check active routes
   const isLinkActive = (href: string) => {
     if (href === "/") return pathname === "/";
+
+    if (href.includes("?")) {
+      const [basePath, queryString] = href.split("?");
+      if (pathname !== basePath) return false;
+      const targetTab = new URLSearchParams(queryString).get("tab");
+      const currentTab = searchParams ? searchParams.get("tab") || "bookmarked" : "bookmarked";
+      return currentTab === targetTab;
+    }
+
     const basePath = href.split("?")[0];
     return pathname === basePath || pathname.startsWith(basePath + "/");
   };
@@ -79,22 +89,24 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
         <Link
           href="/"
           onClick={() => handleNavClick("/")}
-          className="group flex items-center gap-3 focus:outline-none"
+          className="group flex flex-col items-center text-center gap-2 focus:outline-none w-full mx-auto"
         >
-          {/* Logo Icon */}
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#E50914] to-[#B20710] flex items-center justify-center shadow-lg shadow-[#E50914]/30 group-hover:scale-105 transition-transform duration-300">
-            <Film className="w-5 h-5 text-white" />
-          </div>
+          {/* Bigger Logo Image */}
+          <img
+            src="/logo.png"
+            alt="Big Stream Logo"
+            className="h-16 sm:h-20 max-h-24 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-md"
+          />
 
-          {/* Stylized Brand Typography "BIG STREAM" */}
-          <div className="flex flex-col">
-            <span className="font-extrabold text-lg tracking-[0.16em] text-white font-sans uppercase leading-none group-hover:text-[#E50914] transition-colors">
+          {/* Stylized Brand Typography UNDER the Logo */}
+          {/* <div className="flex flex-col items-center">
+            <span className="font-extrabold text-xl tracking-[0.18em] text-white font-sans uppercase leading-none group-hover:text-[#E50914] transition-colors">
               BIG<span className="text-[#E50914]">.</span>STREAM
             </span>
-            <span className="text-[9px] tracking-[0.25em] text-[#7A7E8D] font-mono font-medium uppercase mt-1">
+            <span className="text-[10px] tracking-[0.25em] text-[#7A7E8D] font-mono font-medium uppercase mt-1">
               Cinema Platform
             </span>
-          </div>
+          </div> */}
         </Link>
 
         {/* Close Button for Mobile Drawer */}
@@ -134,11 +146,10 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
                     key={item.name}
                     href={item.href}
                     onClick={() => handleNavClick(item.href)}
-                    className={`group relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-                      active
+                    className={`group relative flex items-center gap-3.5 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${active
                         ? "text-[#E50914] bg-[#E50914]/10 font-semibold shadow-[0_0_20px_rgba(229,9,20,0.12)] border border-[#E50914]/20"
                         : "text-[#9B9EAB] hover:text-white hover:bg-white/[0.06]"
-                    }`}
+                      }`}
                   >
                     {/* Active Left Pill Indicator */}
                     {active && (
@@ -147,11 +158,10 @@ export default function Sidebar({ mobileOpen = false, onCloseMobile }: SidebarPr
 
                     {/* Icon */}
                     <IconComponent
-                      className={`w-[19px] h-[19px] transition-colors duration-200 ${
-                        active
+                      className={`w-[19px] h-[19px] transition-colors duration-200 ${active
                           ? "text-[#E50914] fill-[#E50914]/20"
                           : "text-[#8C90A0] group-hover:text-white"
-                      }`}
+                        }`}
                     />
 
                     {/* Label */}

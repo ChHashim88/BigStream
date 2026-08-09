@@ -79,3 +79,15 @@
 .font-serif-editorial {
   font-family: var(--font-playfair), serif;
 }
+
+/* Performance & Hardware Acceleration */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform;
+}
+
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 350px;
+}

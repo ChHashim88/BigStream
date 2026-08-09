@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
@@ -22,9 +22,9 @@ export default function HomePage() {
     setIsTrailerOpen(true);
   };
 
-  const continueWatching = dedupeMovies(MOVIES.filter((m) => m.progress));
-  const featuredMovies = dedupeMovies(MOVIES.filter((m) => m.featured));
-  const recentlyAdded = dedupeMovies(MOVIES.filter((m) => m.recentlyAdded));
+  const continueWatching = useMemo(() => dedupeMovies(MOVIES.filter((m) => m.progress)), []);
+  const featuredMovies = useMemo(() => dedupeMovies(MOVIES.filter((m) => m.featured)), []);
+  const recentlyAdded = useMemo(() => dedupeMovies(MOVIES.filter((m) => m.recentlyAdded)), []);
   const featuredArticle = HIFM_ARTICLES[0];
 
   // Helper to filter movies by category or genre with fallback matching
@@ -44,8 +44,8 @@ export default function HomePage() {
     return dedupeMovies([...matches, ...remaining]).slice(0, 8);
   };
 
-  // Define Category Rail Configuration
-  const categoryRails = [
+  // Define Category Rail Configuration (Memoized)
+  const categoryRails = useMemo(() => [
     {
       title: "Special & Vault Presentations",
       movies: getCategoryMovies("Special"),
@@ -121,7 +121,7 @@ export default function HomePage() {
       movies: getCategoryMovies("Western"),
       slug: "western",
     },
-  ];
+  ], []);
 
   return (
     <MainLayout>
@@ -166,7 +166,7 @@ export default function HomePage() {
               title={catRail.title}
               movies={catRail.movies}
               variant="portrait"
-              viewAllHref={`/categories`}
+              viewAllHref={`/categories/${catRail.slug}`}
               onPlayMovie={handlePlayTrailer}
             />
           ))}

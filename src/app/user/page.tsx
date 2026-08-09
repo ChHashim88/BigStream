@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, Suspense } from "react";
 import MainLayout from "@/components/layout/MainLayout";
 import Footer from "@/components/layout/Footer";
 import UserDashboard from "@/components/user/UserDashboard";
@@ -20,7 +20,9 @@ export default function UserPortalPage() {
     <MainLayout>
       <main className="flex-1 pt-24 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <UserDashboard onPlayMovie={handlePlayMovie} />
+          <Suspense fallback={<div className="text-white p-8 text-center">Loading User Portal...</div>}>
+            <UserDashboard onPlayMovie={handlePlayMovie} />
+          </Suspense>
         </div>
       </main>
 

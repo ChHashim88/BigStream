@@ -56,6 +56,8 @@ export default function HeroCarousel({ movies, onPlayTrailer }: HeroCarouselProp
           <img
             src={currentMovie.backdrop}
             alt={currentMovie.title}
+            fetchPriority="high"
+            decoding="async"
             className="w-full h-full object-cover object-top filter brightness-[0.8] contrast-[1.05]"
           />
         </motion.div>

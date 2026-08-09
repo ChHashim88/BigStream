@@ -12,13 +12,20 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-16">
           {/* Brand Column */}
           <div className="lg:col-span-2 space-y-4">
-            <Link href="/" className="inline-flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-lg bg-[#E50914] flex items-center justify-center shadow-lg shadow-[#E50914]/30">
-                <Film className="w-5 h-5 text-white" />
+            <Link href="/" className="inline-flex flex-col items-start gap-2">
+              <img
+                src="/logo.png"
+                alt="Big Stream Logo"
+                className="h-16 sm:h-20 w-auto object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="font-extrabold text-2xl tracking-[0.2em] text-white">
+                  BIG<span className="text-[#E50914]">.</span>STREAM
+                </span>
+                <span className="text-[10px] tracking-[0.25em] text-[#7A7E8D] font-mono font-medium uppercase mt-0.5">
+                  Cinema Platform
+                </span>
               </div>
-              <span className="font-extrabold text-2xl tracking-[0.2em] text-white">
-                BIG<span className="text-[#E50914]">.</span>STREAM
-              </span>
             </Link>
             <p className="text-sm text-[#92959D] max-w-sm font-light leading-relaxed">
               Entertainment beyond the screen. Delivering Big Screen Entertainment Group (Stock: BSEG) originals, independent festival cinema, and digital media worldwide.

@@ -32,13 +32,20 @@ export default function LoginPage() {
         <div className="absolute inset-0 cinematic-vignette" />
 
         <div className="relative z-10 max-w-lg space-y-6 text-left">
-          <Link href="/" className="inline-flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-[#E50914] flex items-center justify-center shadow-xl shadow-[#E50914]/50">
-              <Film className="w-5 h-5 text-white" />
+          <Link href="/" className="inline-flex flex-col items-start gap-2 group">
+            <img
+              src="/logo.png"
+              alt="Big Stream Logo"
+              className="h-16 sm:h-20 w-auto object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-lg"
+            />
+            <div className="flex flex-col">
+              <span className="font-extrabold text-2xl tracking-[0.2em] text-white group-hover:text-[#E50914] transition-colors">
+                BIG<span className="text-[#E50914]">.</span>STREAM
+              </span>
+              <span className="text-[10px] tracking-[0.25em] text-[#7A7E8D] font-mono font-medium uppercase mt-0.5">
+                Cinema Platform
+              </span>
             </div>
-            <span className="font-extrabold text-2xl tracking-[0.2em] text-white">
-              BIG<span className="text-[#E50914]">.</span>STREAM
-            </span>
           </Link>
 
           <h2 className="text-4xl font-extrabold text-white leading-tight font-sans">
@@ -53,13 +60,23 @@ export default function LoginPage() {
       {/* Right Login Interface Form */}
       <div className="flex-1 flex flex-col justify-between p-6 sm:p-12 lg:p-16 max-w-xl mx-auto w-full">
         <div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs text-[#92959D] hover:text-white mb-8 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home</span>
-          </Link>
+          <div className="flex items-center justify-between mb-8">
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs text-[#92959D] hover:text-white transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Back to Home</span>
+            </Link>
+
+            <Link href="/" className="lg:hidden flex items-center gap-2">
+              <img
+                src="/logo.png"
+                alt="Big Stream Logo"
+                className="h-10 w-auto object-contain"
+              />
+            </Link>
+          </div>
 
           <div className="space-y-2 mb-8">
             <h1 className="text-3xl font-extrabold text-white">Welcome Back</h1>

@@ -33,13 +33,17 @@ export default function MovieCard({
       className="group relative rounded-xl overflow-hidden bg-[#111318] border border-white/[0.08] shadow-lg hover:shadow-2xl hover:shadow-[#E50914]/20 transition-all duration-300 flex flex-col cursor-pointer h-full"
     >
       {/* Poster / Backdrop Container */}
-      <div
-        className={`relative w-full shrink-0 overflow-hidden bg-[#08090B] ${isLandscape ? "aspect-[16/9]" : "aspect-[2/3]"
-          }`}
+      <Link
+        href={`/movie/${movie.slug}`}
+        className={`relative w-full shrink-0 overflow-hidden bg-[#08090B] block ${
+          isLandscape ? "aspect-[16/9]" : "aspect-[2/3]"
+        }`}
       >
         <img
           src={isLandscape ? movie.backdrop : movie.poster}
           alt={movie.title}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.9]"
         />
 
@@ -47,15 +51,7 @@ export default function MovieCard({
         <div className="absolute inset-0 bg-gradient-to-t from-[#111318] via-black/30 to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300" />
 
         {/* Top Badges */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between z-10">
-          {movie.isOriginal ? (
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase tracking-wider font-bold bg-white/20 backdrop-blur-md text-white border border-white/20">
-              ORIGINAL
-            </span>
-          ) : (
-            <span />
-          )}
-
+        <div className="absolute top-2.5 right-2.5 z-10">
           <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-amber-400 text-[11px] font-mono font-bold">
             <Star className="w-3 h-3 fill-amber-400" />
             <span>{movie.score}</span>
@@ -64,17 +60,9 @@ export default function MovieCard({
 
         {/* Center Hover Play Overlay */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20">
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              if (onPlay) onPlay(movie);
-            }}
-            aria-label={`Play ${movie.title}`}
-            className="w-12 h-12 rounded-full bg-[#E50914] text-white flex items-center justify-center shadow-xl shadow-[#E50914]/50 scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-[#FF0F1A]"
-          >
+          <div className="w-12 h-12 rounded-full bg-[#E50914] text-white flex items-center justify-center shadow-xl shadow-[#E50914]/50 scale-90 group-hover:scale-100 transition-transform duration-300 hover:bg-[#FF0F1A]">
             <Play className="w-5 h-5 fill-white text-white ml-0.5" />
-          </button>
+          </div>
         </div>
 
         {/* Progress Bar for Continue Watching */}
@@ -92,7 +80,7 @@ export default function MovieCard({
             </div>
           </div>
         )}
-      </div>
+      </Link>
 
       {/* Card Content & Metadata */}
       <div className="p-3.5 flex-1 flex flex-col justify-between space-y-2 bg-[#111318] min-h-[96px]">

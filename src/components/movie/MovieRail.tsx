@@ -67,7 +67,7 @@ export default function MovieRail({
           <div>
             <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white font-sans flex items-center gap-2">
               <span>{title}</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-[#E50914]" />
+              <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-[#E50914]" />
             </h2>
             {subtitle && (
               <p className="text-xs sm:text-sm text-[#92959D] mt-0.5 font-light">

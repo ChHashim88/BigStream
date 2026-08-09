@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { User, Film, Clock, Heart, Settings, ShieldCheck, Sparkles, Check, Play } from "lucide-react";
+import { useSearchParams, useRouter } from "next/navigation";
+import { User, Film, Clock, Heart, Settings, ShieldCheck, Sparkles, Check, Play, Bookmark } from "lucide-react";
 import { MOVIES, Movie } from "@/data/movies";
 import MovieCard from "../movie/MovieCard";
 
@@ -11,7 +12,25 @@ interface UserDashboardProps {
 }
 
 export default function UserDashboard({ onPlayMovie }: UserDashboardProps) {
-  const [activeTab, setActiveTab] = useState<"watchlist" | "continue" | "settings">("watchlist");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  const tabParam = searchParams.get("tab");
+  const validTabs = ["bookmarked", "liked", "continue", "settings"];
+  const currentTab = tabParam && validTabs.includes(tabParam) ? tabParam : "bookmarked";
+
+  const [activeTab, setActiveTab] = useState<string>(currentTab);
+
+  useEffect(() => {
+    if (tabParam && validTabs.includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    router.push(`/user?tab=${tab}`);
+  };
 
   // User state
   const [username, setUsername] = useState("CinemaEnthusiast2026");
@@ -43,93 +62,110 @@ export default function UserDashboard({ onPlayMovie }: UserDashboardProps) {
   };
 
   const continueWatchingMovies = MOVIES.filter((m) => m.progress);
-  const myListMovies = MOVIES.slice(0, 4);
+  const bookmarkedMovies = MOVIES.slice(0, 4);
+  const likedMovies = MOVIES.slice(4, 9);
 
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="relative rounded-2xl bg-gradient-to-r from-[#181A20] via-[#111318] to-[#08090B] border border-white/10 p-6 sm:p-10 overflow-hidden shadow-2xl">
+      <div className="relative rounded-2xl bg-gradient-to-r from-[#181A20] via-[#111318] to-[#08090B] border border-white/10 p-5 sm:p-8 md:p-10 overflow-hidden shadow-2xl">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#E50914]/10 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="flex items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#E50914] to-red-900 flex items-center justify-center text-white text-2xl font-bold shadow-xl shadow-[#E50914]/30 border border-white/20">
-              <User className="w-8 h-8" />
-            </div>
-            <div className="space-y-1">
-              <div className="flex items-center gap-2">
-                <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-                  Welcome Back, {username}
-                </h1>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+        <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+          {/* User Info Block */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-5 w-full lg:w-auto min-w-0">
+            <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-gradient-to-br from-[#E50914] to-red-900 flex items-center justify-center text-white text-xl sm:text-2xl font-bold shadow-xl shadow-[#E50914]/30 border border-white/20 shrink-0">
+                <User className="w-6 h-6 sm:w-8 sm:h-8" />
+              </div>
+              <div className="sm:hidden">
+                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-[#E50914]/20 text-[#E50914] border border-[#E50914]/40 font-bold">
                   VIP Member
                 </span>
               </div>
-              <p className="text-sm text-[#92959D] font-light">
+            </div>
+
+            <div className="space-y-1 min-w-0 w-full">
+              <div className="flex flex-wrap items-center gap-2">
+                <h1 className="text-base sm:text-2xl md:text-3xl font-extrabold text-white leading-tight break-words max-w-full">
+                  Welcome Back, <span className="text-[#E50914]">{username}</span>
+                </h1>
+                <span className="hidden sm:inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-[#E50914]/20 text-[#E50914] border border-[#E50914]/40 font-bold shrink-0">
+                  VIP Member
+                </span>
+              </div>
+              <p className="text-xs sm:text-sm text-[#92959D] font-light">
                 Continue your cinematic journey on BIG STREAM.
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-4 bg-black/40 backdrop-blur-md px-4 py-3 rounded-xl border border-white/10 text-xs font-mono text-[#92959D]">
-            <div>
-              <span className="block text-white font-bold text-base">{myListMovies.length}</span>
-              Saved Titles
+          {/* Stats Bar (3-Column Grid on Mobile, Flex on Desktop) */}
+          <div className="w-full lg:w-auto grid grid-cols-3 gap-2 sm:gap-4 bg-black/50 backdrop-blur-md p-3 sm:px-5 sm:py-3.5 rounded-xl border border-white/10 text-center">
+            <div className="px-1">
+              <span className="block text-white font-bold text-sm sm:text-base">{bookmarkedMovies.length}</span>
+              <span className="text-[10px] sm:text-xs font-mono text-[#92959D]">Bookmarked</span>
             </div>
-            <div className="h-6 w-[1px] bg-white/10" />
-            <div>
-              <span className="block text-white font-bold text-base">{continueWatchingMovies.length}</span>
-              In Progress
+            <div className="px-1 border-x border-white/10">
+              <span className="block text-white font-bold text-sm sm:text-base">{likedMovies.length}</span>
+              <span className="text-[10px] sm:text-xs font-mono text-[#92959D]">Liked</span>
+            </div>
+            <div className="px-1">
+              <span className="block text-white font-bold text-sm sm:text-base">{continueWatchingMovies.length}</span>
+              <span className="text-[10px] sm:text-xs font-mono text-[#92959D]">In Progress</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex items-center space-x-2 border-b border-white/10 pb-2">
-        <button
-          onClick={() => setActiveTab("watchlist")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
-            activeTab === "watchlist"
-              ? "bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30"
-              : "text-[#92959D] hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Heart className="w-3.5 h-3.5" />
-          <span>My List ({myListMovies.length})</span>
-        </button>
+      {/* Active Tab Badge Indicator */}
+      <div className="flex items-center space-x-2 border-b border-white/10 pb-3">
+        {activeTab === "bookmarked" && (
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30">
+            <Bookmark className="w-4 h-4" />
+            <span>Bookmarked ({bookmarkedMovies.length})</span>
+          </div>
+        )}
 
-        <button
-          onClick={() => setActiveTab("continue")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
-            activeTab === "continue"
-              ? "bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30"
-              : "text-[#92959D] hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Clock className="w-3.5 h-3.5" />
-          <span>Continue Watching ({continueWatchingMovies.length})</span>
-        </button>
+        {activeTab === "liked" && (
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30">
+            <Heart className="w-4 h-4" />
+            <span>Liked Titles ({likedMovies.length})</span>
+          </div>
+        )}
 
-        <button
-          onClick={() => setActiveTab("settings")}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all ${
-            activeTab === "settings"
-              ? "bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30"
-              : "text-[#92959D] hover:text-white hover:bg-white/5"
-          }`}
-        >
-          <Settings className="w-3.5 h-3.5" />
-          <span>Account Settings</span>
-        </button>
+        {activeTab === "continue" && (
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30">
+            <Clock className="w-4 h-4" />
+            <span>Continue Watching ({continueWatchingMovies.length})</span>
+          </div>
+        )}
+
+        {activeTab === "settings" && (
+          <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide bg-[#E50914] text-white shadow-lg shadow-[#E50914]/30">
+            <Settings className="w-4 h-4" />
+            <span>Account Settings</span>
+          </div>
+        )}
       </div>
 
       {/* Tab Content */}
-      {activeTab === "watchlist" && (
+      {activeTab === "bookmarked" && (
         <div className="space-y-4">
-          <h2 className="text-lg font-bold text-white">Saved to My List</h2>
+          <h2 className="text-lg font-bold text-white">Bookmarked Movies</h2>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {myListMovies.map((movie) => (
+            {bookmarkedMovies.map((movie) => (
+              <MovieCard key={movie.id} movie={movie} onPlay={onPlayMovie} />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {activeTab === "liked" && (
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-white">Liked Titles & Favorites</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {likedMovies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} onPlay={onPlayMovie} />
             ))}
           </div>
@@ -233,7 +269,7 @@ export default function UserDashboard({ onPlayMovie }: UserDashboardProps) {
               </div>
               <div className="flex justify-between py-2 border-b border-white/5">
                 <span>Status</span>
-                <span className="text-emerald-400 font-semibold">Active</span>
+                <span className="text-emerald-400 font-semibold">Active Active</span>
               </div>
               <div className="flex justify-between py-2 border-b border-white/5">
                 <span>Next Billing</span>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, X, Film, BookOpen, Layers, ArrowRight, Star } from "lucide-react";
@@ -30,33 +30,37 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     };
   }, [isOpen, onClose]);
 
+  const filteredMovies = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return dedupeMovies(
+      MOVIES.filter(
+        (m) =>
+          m.title.toLowerCase().includes(q) ||
+          m.genres.some((g) => g.toLowerCase().includes(q)) ||
+          m.director.toLowerCase().includes(q) ||
+          m.cast.some((c) => c.toLowerCase().includes(q))
+      )
+    );
+  }, [query]);
+
+  const filteredCategories = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return CATEGORIES.filter((c) => c.name.toLowerCase().includes(q));
+  }, [query]);
+
+  const filteredArticles = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return HIFM_ARTICLES.filter(
+      (a) =>
+        a.title.toLowerCase().includes(q) ||
+        a.excerpt.toLowerCase().includes(q)
+    );
+  }, [query]);
+
   if (!isOpen) return null;
-
-  const filteredMovies = query.trim()
-    ? dedupeMovies(
-        MOVIES.filter(
-          (m) =>
-            m.title.toLowerCase().includes(query.toLowerCase()) ||
-            m.genres.some((g) => g.toLowerCase().includes(query.toLowerCase())) ||
-            m.director.toLowerCase().includes(query.toLowerCase()) ||
-            m.cast.some((c) => c.toLowerCase().includes(query.toLowerCase()))
-        )
-      )
-    : [];
-
-  const filteredCategories = query.trim()
-    ? CATEGORIES.filter((c) =>
-        c.name.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
-
-  const filteredArticles = query.trim()
-    ? HIFM_ARTICLES.filter(
-        (a) =>
-          a.title.toLowerCase().includes(query.toLowerCase()) ||
-          a.excerpt.toLowerCase().includes(query.toLowerCase())
-      )
-    : [];
 
   return (
     <AnimatePresence>
