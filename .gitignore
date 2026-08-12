@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI tool files (internal use only)
+AGENTS.md
+CLAUDE.md
+.claude
+.claude/
+.gemini/
+*.antigravity*
